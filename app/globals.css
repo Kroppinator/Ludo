@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+@theme {
+  --color-player-red:    #dc2626;
+  --color-player-blue:   #2563eb;
+  --color-player-green:  #16a34a;
+  --color-player-yellow: #ca8a04;
+  --color-board-bg:      #f5f0e8;
+  --color-board-border:  #78716c;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Prevent tap highlight on touch devices */
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  body {
+    user-select: none;
+    -webkit-user-select: none;
+  }
+}
