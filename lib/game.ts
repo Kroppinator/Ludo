@@ -1,4 +1,4 @@
-// Pure rules engine for "Mensch ärgere dich nicht".
+// Pure rules engine for the Ludo board game.
 //
 // No React, no rendering. State transitions are pure functions returning a new
 // GameState. The UI generates a die value (virtual RNG or a tapped physical
@@ -238,6 +238,24 @@ function advance(state: GameState, extraEvents: GameEvent[]): GameState {
 }
 
 /**
+ * True when the current player cannot move any piece except by rolling a six to
+ * bring one out of the base — i.e. every piece is in the base or stuck in the
+ * goal, and at least one base piece could still enter. Such a player gets three
+ * attempts to roll the needed six.
+ */
+export function needsThreeAttempts(state: GameState): boolean {
+  const player = currentPlayer(state);
+  const own = state.pieces.filter((p) => p.color === player.color);
+  const basePieces = own.filter((p) => isInBase(p.progress));
+  if (basePieces.length === 0) return false;
+  // Any piece already in play that can still move rules out the situation.
+  const canMove = (p: Piece) => [1, 2, 3, 4, 5, 6].some((v) => computeMove(state, p, v) !== null);
+  if (own.some((p) => !isInBase(p.progress) && canMove(p))) return false;
+  // A base piece must actually be able to enter on a six (start field free).
+  return basePieces.some((p) => computeMove(state, p, SIX) !== null);
+}
+
+/**
  * Apply a die value for the current player. Handles the mandatory six rule, the
  * optional three-attempts rule, and skipping when no move is possible.
  */
@@ -245,9 +263,6 @@ export function applyRoll(state: GameState, value: number): GameState {
   if (state.phase !== 'roll') return state;
 
   const player = currentPlayer(state);
-  const allInBase = state.pieces
-    .filter((p) => p.color === player.color)
-    .every((p) => isInBase(p.progress));
   const attempt = state.rollAttempts + 1;
   const events: GameEvent[] = [{ type: 'rolled', value }];
   const moves = getLegalMoves(state, value);
@@ -275,7 +290,7 @@ export function applyRoll(state: GameState, value: number): GameState {
   }
 
   // No legal move this roll.
-  if (allInBase && state.rules.threeAttempts && value !== SIX && attempt < 3) {
+  if (state.rules.threeAttempts && value !== SIX && attempt < 3 && needsThreeAttempts(state)) {
     // Three-attempts rule: keep the turn, roll again.
     return { ...state, dice: value, phase: 'roll', rollAttempts: attempt, extraRoll: false, legalMoves: [], events };
   }

@@ -1,7 +1,7 @@
 'use client';
 
 import type { GameState } from '@/lib/types';
-import { currentPlayer, isInBase } from '@/lib/types';
+import { currentPlayer } from '@/lib/types';
 import { COLOR_HEX } from '@/lib/colors';
 import { useI18n } from '@/lib/i18n';
 import Dice, { DiceMode } from './Dice';
@@ -22,14 +22,10 @@ export default function GameControls({
     ? state.players.find((p) => p.id === state.winnerId)!
     : currentPlayer(state);
 
-  const allInBase = state.pieces
-    .filter((p) => p.color === player.color)
-    .every((p) => isInBase(p.progress));
-
   let status = '';
   if (state.phase === 'gameover') status = t('game.wins', { name: player.name });
   else if (state.phase === 'move') status = t('game.pickPiece');
-  else if (state.rollAttempts > 0 && state.rules.threeAttempts && allInBase)
+  else if (state.rollAttempts > 0 && state.rules.threeAttempts)
     status = t('game.attempts', { n: state.rollAttempts + 1 });
   else if (state.extraRoll) status = t('game.rollAgain');
   else status = t('game.tapToRoll');
@@ -48,6 +44,7 @@ export default function GameControls({
             mode={diceMode}
             disabled={state.phase !== 'roll'}
             lastValue={state.dice}
+            color={player.color}
             onRoll={onRoll}
           />
         </>
