@@ -1,7 +1,7 @@
 {
   "name": "ludo",
   "version": "0.1.0",
-  "description": "Mensch Ärgere Dich nicht – touch-enabled board game for tablet and smartphone.",
+  "description": "Ludo – touch-enabled board game for tablet and smartphone.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

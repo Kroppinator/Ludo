@@ -1,5 +1,5 @@
 // Geometry for the 4-player cross board — matches the official board layout
-// (Wikipedia "Mensch ärgere dich nicht 4"), with clockwise play.
+// (the standard 4-player Ludo cross board), with clockwise play.
 //
 // Two concerns live here:
 //  1. The ABSTRACT model (start offsets + clockwise colour order) used by the

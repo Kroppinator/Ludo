@@ -2,8 +2,16 @@ import type { Metadata, Viewport } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Mensch Ärgere Dich nicht',
+  applicationName: 'Chill dein Leben, Digga!',
+  title: 'Chill dein Leben, Digga!',
   description: 'Das klassische Brettspiel für 2–4 Spieler – optimiert für Tablet und Smartphone.',
+  authors: [
+    { name: 'Kroppinator', url: 'https://github.com/Kroppinator' },
+    { name: 'Claude (Anthropic)', url: 'https://www.anthropic.com' },
+  ],
+  creator: 'Kroppinator & Claude',
+  publisher: 'Kroppinator',
+  keywords: ['Chill dein Leben Digga', 'Ludo', 'Brettspiel', 'board game', 'Pöppel'],
 };
 
 export const viewport: Viewport = {

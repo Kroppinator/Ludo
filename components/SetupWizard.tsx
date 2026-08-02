@@ -10,21 +10,37 @@ import type { DiceMode } from './Dice';
 import RuleToggles from './RuleToggles';
 import LanguageSwitch from './LanguageSwitch';
 
-interface Entry {
+export interface Entry {
   name: string;
   age: string;
 }
 
+/** Raw setup values, kept so a new game can prefill the previous players. */
+export interface SetupSnapshot {
+  count: number;
+  entries: Entry[];
+}
+
 const EMPTY: Entry = { name: '', age: '' };
+
+function initialEntries(initial?: SetupSnapshot | null): Entry[] {
+  const slots: Entry[] = [{ ...EMPTY }, { ...EMPTY }, { ...EMPTY }, { ...EMPTY }];
+  initial?.entries.forEach((e, i) => {
+    if (i < slots.length) slots[i] = { name: e.name, age: e.age };
+  });
+  return slots;
+}
 
 export default function SetupWizard({
   onStart,
+  initial,
 }: {
-  onStart: (players: Player[], rules: RuleConfig, diceMode: DiceMode) => void;
+  onStart: (players: Player[], rules: RuleConfig, diceMode: DiceMode, snapshot: SetupSnapshot) => void;
+  initial?: SetupSnapshot | null;
 }) {
   const { t } = useI18n();
-  const [count, setCount] = useState(2);
-  const [entries, setEntries] = useState<Entry[]>([{ ...EMPTY }, { ...EMPTY }, { ...EMPTY }, { ...EMPTY }]);
+  const [count, setCount] = useState(initial?.count ?? 2);
+  const [entries, setEntries] = useState<Entry[]>(() => initialEntries(initial));
   const [diceMode, setDiceMode] = useState<DiceMode>('virtual');
   const [rules, setRules] = useState<RuleConfig>({ ...DEFAULT_RULES });
 
@@ -51,7 +67,10 @@ export default function SetupWizard({
       if (p.age < seated[youngest].age) youngest = i;
     });
     const ordered = [...seated.slice(youngest), ...seated.slice(0, youngest)];
-    onStart(ordered, rules, diceMode);
+    onStart(ordered, rules, diceMode, {
+      count,
+      entries: active.map((e) => ({ name: e.name.trim(), age: e.age })),
+    });
   }
 
   return (

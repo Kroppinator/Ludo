@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import DiceFace from './DiceFace';
 import { rollDie } from '@/lib/game';
+import type { PlayerColor } from '@/lib/types';
+import { COLOR_HEX } from '@/lib/colors';
 import { useI18n } from '@/lib/i18n';
 
 export type DiceMode = 'virtual' | 'physical';
@@ -12,14 +14,17 @@ export default function Dice({
   mode,
   disabled,
   lastValue,
+  color,
   onRoll,
 }: {
   mode: DiceMode;
   disabled: boolean;
   lastValue: number | null;
+  color: PlayerColor;
   onRoll: (value: number) => void;
 }) {
   const { t } = useI18n();
+  const hex = COLOR_HEX[color];
   const [rolling, setRolling] = useState(false);
   const [face, setFace] = useState(lastValue ?? 1);
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
@@ -65,7 +70,7 @@ export default function Dice({
               className="rounded-lg transition enabled:hover:scale-110 enabled:active:scale-95 disabled:opacity-40"
               aria-label={`${v}`}
             >
-              <DiceFace value={v} size={44} />
+              <DiceFace value={v} size={44} faceColor={hex} pipColor="#ffffff" />
             </button>
           ))}
         </div>
@@ -85,7 +90,7 @@ export default function Dice({
         style={{ perspective: 600 }}
         aria-label={t('game.tapToRoll')}
       >
-        <DiceFace value={face} size={72} />
+        <DiceFace value={face} size={72} faceColor={hex} pipColor="#ffffff" />
       </motion.button>
       <span className="text-sm text-stone-500">{disabled ? ' ' : t('game.tapToRoll')}</span>
     </div>
