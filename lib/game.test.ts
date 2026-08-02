@@ -135,6 +135,31 @@ describe('three-attempts rule (optional)', () => {
     g = applyRoll(g, 2);
     expect(g.currentPlayerIndex).toBe(1);
   });
+
+  it('also grants three rolls when a base piece waits and the rest are stuck in the goal', () => {
+    let g = game(['red', 'yellow'], { threeAttempts: true });
+    g = place(g, [
+      { color: 'red', index: 0, progress: BASE }, // needs a six to enter
+      { color: 'red', index: 1, progress: GOAL_START + 1 }, // 41, immovable
+      { color: 'red', index: 2, progress: GOAL_START + 2 }, // 42, immovable
+      { color: 'red', index: 3, progress: GOAL_START + 3 }, // 43, immovable
+    ]);
+    g = applyRoll(g, 3);
+    expect(g.currentPlayerIndex).toBe(0); // kept the turn — another attempt
+    expect(g.rollAttempts).toBe(1);
+  });
+
+  it('does not grant extra rolls when a piece in play can still move', () => {
+    let g = game(['red', 'yellow'], { threeAttempts: true });
+    g = place(g, [
+      { color: 'red', index: 0, progress: BASE },
+      { color: 'red', index: 1, progress: GOAL_START }, // 40 — could still advance
+      { color: 'red', index: 2, progress: BASE },
+      { color: 'red', index: 3, progress: BASE },
+    ]);
+    g = applyRoll(g, 5); // no move this roll, but the goal piece isn't stuck
+    expect(g.currentPlayerIndex).toBe(1); // turn passes, no re-roll
+  });
 });
 
 // --- capture & blocking -----------------------------------------------------

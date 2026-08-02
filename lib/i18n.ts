@@ -15,7 +15,7 @@ export const LANGUAGES: { code: Lang; label: string }[] = [
 type Dict = Record<string, string>;
 
 const en: Dict = {
-  'app.title': "Mensch ärgere dich nicht",
+  'app.title': 'Ludo',
   'app.subtitle': 'The classic board game — for tablet & phone',
 
   'setup.language': 'Language',
@@ -30,12 +30,13 @@ const en: Dict = {
   'setup.dice.physical': 'Physical dice',
   'setup.dice.physicalHint': 'Roll your own dice and tap the result.',
   'setup.rules': 'Optional rules',
+  'setup.moreRules': 'More rules',
   'setup.start': 'Start game',
   'setup.needNames': 'Please enter a name for every player.',
   'setup.youngestStarts': 'Youngest player starts, then clockwise.',
 
   'rule.threeAttempts': 'Three attempts',
-  'rule.threeAttempts.desc': 'With all pieces in the base, roll up to three times for a six.',
+  'rule.threeAttempts.desc': 'When no piece can move, roll up to three times for a six.',
   'rule.bonusRollBeforeThird': 'Bonus roll',
   'rule.bonusRollBeforeThird.desc': 'A six on attempts 1–2 grants an extra roll.',
   'rule.noJumpInGoal': 'No jumping in the goal',
@@ -63,7 +64,7 @@ const en: Dict = {
 };
 
 const de: Dict = {
-  'app.title': 'Mensch ärgere dich nicht',
+  'app.title': 'Chill dein Leben, Digga!',
   'app.subtitle': 'Das klassische Brettspiel — für Tablet & Smartphone',
 
   'setup.language': 'Sprache',
@@ -78,12 +79,13 @@ const de: Dict = {
   'setup.dice.physical': 'Echter Würfel',
   'setup.dice.physicalHint': 'Selbst würfeln und das Ergebnis antippen.',
   'setup.rules': 'Optionale Regeln',
+  'setup.moreRules': 'Weitere Regeln',
   'setup.start': 'Spiel starten',
   'setup.needNames': 'Bitte für jeden Spieler einen Namen eingeben.',
   'setup.youngestStarts': 'Der jüngste Spieler beginnt, dann im Uhrzeigersinn.',
 
   'rule.threeAttempts': 'Drei Versuche',
-  'rule.threeAttempts.desc': 'Sind alle Figuren im Haus, dreimal auf eine Sechs würfeln.',
+  'rule.threeAttempts.desc': 'Wenn keine Figur ziehen kann, dreimal auf eine Sechs würfeln.',
   'rule.bonusRollBeforeThird': 'Bonus-Wurf',
   'rule.bonusRollBeforeThird.desc': 'Eine Sechs im 1.–2. Versuch bringt einen Extra-Wurf.',
   'rule.noJumpInGoal': 'Kein Überspringen im Ziel',

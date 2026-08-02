@@ -4,9 +4,10 @@ import { useReducer, useState, useMemo, useCallback } from 'react';
 import { I18nContext, Lang, translate } from '@/lib/i18n';
 import type { GameState, Player, RuleConfig } from '@/lib/types';
 import { createGame, applyRoll, applyMove } from '@/lib/game';
-import SetupWizard from '@/components/SetupWizard';
+import SetupWizard, { type SetupSnapshot } from '@/components/SetupWizard';
 import Board from '@/components/Board';
 import GameControls from '@/components/GameControls';
+import WinCelebration from '@/components/WinCelebration';
 import LanguageSwitch from '@/components/LanguageSwitch';
 import type { DiceMode } from '@/components/Dice';
 
@@ -32,6 +33,7 @@ function reducer(state: GameState | null, action: Action): GameState | null {
 export default function Home() {
   const [lang, setLang] = useState<Lang>('de');
   const [diceMode, setDiceMode] = useState<DiceMode>('virtual');
+  const [lastSetup, setLastSetup] = useState<SetupSnapshot | null>(null);
   const [game, dispatch] = useReducer(reducer, null);
 
   const t = useCallback(
@@ -40,8 +42,9 @@ export default function Home() {
   );
   const i18n = useMemo(() => ({ lang, setLang, t }), [lang, t]);
 
-  const handleStart = (players: Player[], rules: RuleConfig, mode: DiceMode) => {
+  const handleStart = (players: Player[], rules: RuleConfig, mode: DiceMode, snapshot: SetupSnapshot) => {
     setDiceMode(mode);
+    setLastSetup(snapshot);
     dispatch({ type: 'START', players, rules });
   };
 
@@ -49,7 +52,7 @@ export default function Home() {
     <I18nContext.Provider value={i18n}>
       {!game ? (
         <main className="min-h-screen py-4">
-          <SetupWizard onStart={handleStart} />
+          <SetupWizard onStart={handleStart} initial={lastSetup} />
         </main>
       ) : (
         <main className="flex min-h-screen flex-col items-center gap-4 p-4">
@@ -64,6 +67,13 @@ export default function Home() {
             onRoll={(value) => dispatch({ type: 'ROLL', value })}
             onNewGame={() => dispatch({ type: 'RESET' })}
           />
+          {game.phase === 'gameover' && game.winnerId && (
+            <WinCelebration
+              winnerName={game.players.find((p) => p.id === game.winnerId)!.name}
+              color={game.players.find((p) => p.id === game.winnerId)!.color}
+              onNewGame={() => dispatch({ type: 'RESET' })}
+            />
+          )}
         </main>
       )}
     </I18nContext.Provider>

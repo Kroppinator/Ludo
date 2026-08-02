@@ -78,11 +78,21 @@ export default function Board({
           style={{ background: corner ? COLOR_TINT[corner] : 'transparent' }}
           className="flex items-center justify-center"
         >
-          {(start || goal || isTrack || base || isCenter) && (
-            <div
-              className="h-[86%] w-[86%]"
-              style={{ background: bg, border, borderRadius: radius }}
+          {isCenter ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src="/avatar.jpg"
+              alt="Avatar"
+              className="h-[96%] w-[96%] rounded-full object-cover shadow"
+              style={{ border: '2px solid #cbb992' }}
             />
+          ) : (
+            (start || goal || isTrack || base) && (
+              <div
+                className="h-[86%] w-[86%]"
+                style={{ background: bg, border, borderRadius: radius }}
+              />
+            )
           )}
         </div>,
       );

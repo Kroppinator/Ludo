@@ -1,4 +1,4 @@
-// Core domain model for "Mensch ärgere dich nicht".
+// Core domain model for the Ludo board game.
 // This layer is pure data — no React, no board pixel geometry.
 
 /** The four player colours available on the 4-player board (phase 1). */
