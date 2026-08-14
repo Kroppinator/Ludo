@@ -76,7 +76,7 @@ export default function Board({
         <div
           key={key}
           style={{ background: corner ? COLOR_TINT[corner] : 'transparent' }}
-          className="flex items-center justify-center"
+          className="flex min-h-0 min-w-0 items-center justify-center"
         >
           {isCenter ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -112,38 +112,42 @@ export default function Board({
 
   return (
     <div
-      className="relative mx-auto aspect-square w-full max-w-[min(92vw,72vh)] rounded-2xl bg-board-bg p-[1.5%] shadow-xl"
+      className="relative mx-auto w-full max-w-[min(92vw,72vh)] rounded-2xl bg-board-bg p-[1.5%] shadow-xl"
       style={{ border: '3px solid #78716c' }}
     >
-      <div
-        className="grid h-full w-full"
-        style={{ gridTemplateColumns: `repeat(${BOARD_SIZE}, 1fr)`, gridTemplateRows: `repeat(${BOARD_SIZE}, 1fr)` }}
-      >
-        {cells}
-      </div>
+      {/* aspect-square on this inner, width-driven box makes the height derive
+          from a definite width (reliable on iOS). Grid + overlay share this box
+          so pieces line up exactly with the cells and nothing overflows. */}
+      <div className="relative aspect-square w-full">
+        <div
+          className="grid h-full w-full"
+          style={{ gridTemplateColumns: `repeat(${BOARD_SIZE}, 1fr)`, gridTemplateRows: `repeat(${BOARD_SIZE}, 1fr)` }}
+        >
+          {cells}
+        </div>
 
-      {/* Piece overlay */}
-      <div className="pointer-events-none absolute inset-[1.5%]">
-        <div className="pointer-events-auto relative h-full w-full">
-          {state.pieces.map((p) => {
-            const [row, col] = cellForPiece(p.color, p.index, p.progress);
-            const mates = byCell.get(cellKey([row, col]))!;
-            const idx = mates.indexOf(p.id);
-            const offset = mates.length > 1 ? (idx - (mates.length - 1) / 2) * 2.4 : 0;
-            return (
-              <Piece
-                key={p.id}
-                color={p.color}
-                xCol={col}
-                yRow={row}
-                legal={state.legalMoves.includes(p.id)}
-                moved={movedIds.has(p.id)}
-                captured={capturedIds.has(p.id)}
-                stackOffset={offset}
-                onClick={() => onPieceClick(p.id)}
-              />
-            );
-          })}
+        <div className="pointer-events-none absolute inset-0">
+          <div className="pointer-events-auto relative h-full w-full">
+            {state.pieces.map((p) => {
+              const [row, col] = cellForPiece(p.color, p.index, p.progress);
+              const mates = byCell.get(cellKey([row, col]))!;
+              const idx = mates.indexOf(p.id);
+              const offset = mates.length > 1 ? (idx - (mates.length - 1) / 2) * 2.4 : 0;
+              return (
+                <Piece
+                  key={p.id}
+                  color={p.color}
+                  xCol={col}
+                  yRow={row}
+                  legal={state.legalMoves.includes(p.id)}
+                  moved={movedIds.has(p.id)}
+                  captured={capturedIds.has(p.id)}
+                  stackOffset={offset}
+                  onClick={() => onPieceClick(p.id)}
+                />
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>
