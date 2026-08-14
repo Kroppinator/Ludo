@@ -106,12 +106,19 @@ export default function SetupWizard({
             <input
               value={e.name}
               onChange={(ev) => setEntry(i, { name: ev.target.value })}
+              autoComplete="off"
+              autoCorrect="off"
+              autoCapitalize="words"
+              data-1p-ignore
+              data-lpignore="true"
               placeholder={`${t('setup.player', { n: i + 1 })} — ${t('setup.namePlaceholder')}`}
               className="min-w-0 flex-1 rounded-lg border border-stone-300 px-3 py-2"
             />
             <input
               value={e.age}
               onChange={(ev) => setEntry(i, { age: ev.target.value.replace(/\D/g, '') })}
+              autoComplete="off"
+              autoCorrect="off"
               inputMode="numeric"
               placeholder={t('setup.age')}
               className="w-20 rounded-lg border border-stone-300 px-3 py-2"

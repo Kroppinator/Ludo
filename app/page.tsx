@@ -51,11 +51,11 @@ export default function Home() {
   return (
     <I18nContext.Provider value={i18n}>
       {!game ? (
-        <main className="min-h-screen py-4">
+        <main className="min-h-dvh py-4">
           <SetupWizard onStart={handleStart} initial={lastSetup} />
         </main>
       ) : (
-        <main className="flex min-h-screen flex-col items-center gap-4 p-4">
+        <main className="flex min-h-dvh flex-col items-center gap-4 p-4">
           <div className="flex w-full max-w-md items-center justify-between">
             <h1 className="text-lg font-bold text-board-border">{t('app.title')}</h1>
             <LanguageSwitch />

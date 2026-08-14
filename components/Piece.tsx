@@ -45,27 +45,37 @@ export default function Piece({
         default: { duration: 0.5 },
       }}
       whileTap={legal ? { scale: 0.9 } : undefined}
-      className="absolute z-10 -translate-x-1/2 -translate-y-1/2 rounded-full"
+      // Hit area fills the whole cell for easy tapping on phones; only legal
+      // pieces are interactive so they never block each other.
+      className="absolute z-10 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center bg-transparent"
       style={{
-        width: `${CELL * 0.72}%`,
-        height: `${CELL * 0.72}%`,
+        width: `${CELL}%`,
+        height: `${CELL}%`,
         cursor: legal ? 'pointer' : 'default',
-        // Glossy 3D token: highlight top-left, colour body, dark rim + drop shadow.
-        background: `radial-gradient(circle at 32% 28%, #ffffffcc 0%, ${hex} 42%, ${hex} 70%, #00000055 100%)`,
-        boxShadow: '0 3px 5px rgba(0,0,0,0.35), inset 0 -2px 3px rgba(0,0,0,0.3)',
-        border: legal ? '2px solid #ffffff' : '2px solid rgba(0,0,0,0.25)',
-        outline: legal ? '3px solid #fbbf24' : 'none',
+        pointerEvents: legal ? 'auto' : 'none',
       }}
       aria-label={`${color} piece`}
     >
-      {legal && (
-        <motion.span
-          className="absolute inset-0 rounded-full"
-          style={{ boxShadow: '0 0 0 3px #fbbf24' }}
-          animate={{ opacity: [0.4, 1, 0.4], scale: [1, 1.18, 1] }}
-          transition={{ duration: 1.1, repeat: Infinity }}
-        />
-      )}
+      {/* Visual token — kept at the original size (72% of the cell). */}
+      <span
+        className="relative block h-[72%] w-[72%] rounded-full"
+        style={{
+          // Glossy 3D token: highlight top-left, colour body, dark rim + drop shadow.
+          background: `radial-gradient(circle at 32% 28%, #ffffffcc 0%, ${hex} 42%, ${hex} 70%, #00000055 100%)`,
+          boxShadow: '0 3px 5px rgba(0,0,0,0.35), inset 0 -2px 3px rgba(0,0,0,0.3)',
+          border: legal ? '2px solid #ffffff' : '2px solid rgba(0,0,0,0.25)',
+          outline: legal ? '3px solid #fbbf24' : 'none',
+        }}
+      >
+        {legal && (
+          <motion.span
+            className="absolute inset-0 rounded-full"
+            style={{ boxShadow: '0 0 0 3px #fbbf24' }}
+            animate={{ opacity: [0.4, 1, 0.4], scale: [1, 1.18, 1] }}
+            transition={{ duration: 1.1, repeat: Infinity }}
+          />
+        )}
+      </span>
     </motion.button>
   );
 }
