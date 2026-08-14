@@ -62,25 +62,28 @@ export default function WinCelebration({
 
       {/* Winner card */}
       <motion.div
-        className="relative z-10 mx-4 flex flex-col items-center gap-4 rounded-3xl bg-white/95 px-8 py-7 text-center shadow-2xl"
+        className="disco-panel relative z-10 mx-4 flex flex-col items-center gap-4 rounded-3xl px-8 py-7 text-center shadow-[0_0_45px_rgba(255,45,155,0.5)]"
         initial={{ scale: 0.6, y: 24, opacity: 0 }}
         animate={{ scale: 1, y: 0, opacity: 1 }}
         transition={{ type: 'spring', stiffness: 260, damping: 18, delay: 0.15 }}
       >
         <motion.div
           className="text-6xl"
-          animate={{ rotate: [0, -10, 10, -10, 0], scale: [1, 1.15, 1] }}
-          transition={{ duration: 0.9, repeat: Infinity, repeatDelay: 0.7 }}
+          animate={{ rotate: 360 }}
+          transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
         >
-          🏆
+          🪩
         </motion.div>
-        <div className="flex items-center gap-2 text-2xl font-extrabold" style={{ color: COLOR_HEX[color] }}>
-          <span className="inline-block h-5 w-5 rounded-full" style={{ background: COLOR_HEX[color] }} />
+        <div className="flex items-center gap-2 font-disco text-2xl neon-text" style={{ color: COLOR_HEX[color] }}>
+          <span
+            className="inline-block h-5 w-5 rounded-full"
+            style={{ background: COLOR_HEX[color], boxShadow: `0 0 12px ${COLOR_HEX[color]}` }}
+          />
           {t('game.wins', { name: winnerName })}
         </div>
         <button
           onClick={onNewGame}
-          className="mt-1 rounded-xl bg-board-border px-6 py-2.5 text-lg font-semibold text-white shadow transition hover:opacity-90 active:scale-95"
+          className="mt-1 rounded-xl bg-gradient-to-r from-neon-pink to-neon-purple px-6 py-2.5 font-disco text-lg text-white shadow-[0_0_20px_rgba(255,45,155,0.7)] transition hover:brightness-110 active:scale-95"
         >
           {t('game.newGame')}
         </button>

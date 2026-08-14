@@ -32,14 +32,17 @@ export default function GameControls({
 
   return (
     <div className="flex w-full max-w-sm flex-col items-center gap-4">
-      <div className="flex items-center gap-2 text-lg font-semibold">
-        <span className="inline-block h-4 w-4 rounded-full" style={{ background: COLOR_HEX[player.color] }} />
+      <div className="flex items-center gap-2 font-disco text-xl">
+        <span
+          className="inline-block h-5 w-5 rounded-full"
+          style={{ background: COLOR_HEX[player.color], boxShadow: `0 0 10px ${COLOR_HEX[player.color]}` }}
+        />
         {state.phase === 'gameover' ? status : t('game.turn', { name: player.name })}
       </div>
 
       {state.phase !== 'gameover' && (
         <>
-          <p className="min-h-5 text-sm text-stone-500">{status}</p>
+          <p className="min-h-5 text-sm text-disco-muted">{status}</p>
           <Dice
             mode={diceMode}
             disabled={state.phase !== 'roll'}
@@ -52,7 +55,7 @@ export default function GameControls({
 
       <button
         onClick={onNewGame}
-        className="mt-2 rounded-lg border border-stone-300 px-4 py-2 text-sm text-stone-600 transition hover:bg-stone-100"
+        className="disco-panel mt-2 rounded-lg px-4 py-2 font-disco text-sm text-disco-muted transition hover:border-neon-cyan/60 hover:text-disco-text"
       >
         {t('game.newGame')}
       </button>

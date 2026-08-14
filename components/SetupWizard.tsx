@@ -76,20 +76,22 @@ export default function SetupWizard({
   return (
     <div className="mx-auto flex w-full max-w-lg flex-col gap-6 p-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-board-border">{t('app.title')}</h1>
+        <h1 className="font-disco text-3xl text-neon-pink neon-text">{t('app.title')}</h1>
         <LanguageSwitch />
       </div>
 
       {/* player count */}
       <section>
-        <h2 className="mb-2 font-semibold text-stone-700">{t('setup.players')}</h2>
+        <h2 className="mb-2 font-disco text-lg text-neon-cyan">{t('setup.players')}</h2>
         <div className="flex gap-2">
           {[2, 3, 4].map((n) => (
             <button
               key={n}
               onClick={() => setCount(n)}
-              className={`h-11 w-11 rounded-lg text-lg font-semibold transition ${
-                count === n ? 'bg-board-border text-white' : 'bg-stone-200 text-stone-600'
+              className={`h-11 w-11 rounded-lg font-disco text-lg transition ${
+                count === n
+                  ? 'bg-neon-pink text-white shadow-[0_0_16px_rgba(255,45,155,0.7)]'
+                  : 'disco-panel text-disco-muted'
               }`}
             >
               {n}
@@ -102,7 +104,10 @@ export default function SetupWizard({
       <section className="flex flex-col gap-2">
         {active.map((e, i) => (
           <div key={i} className="flex items-center gap-2">
-            <span className="h-6 w-6 shrink-0 rounded-full border border-black/20" style={{ background: COLOR_HEX[colors[i]] }} />
+            <span
+              className="h-6 w-6 shrink-0 rounded-full border border-white/40"
+              style={{ background: COLOR_HEX[colors[i]], boxShadow: `0 0 10px ${COLOR_HEX[colors[i]]}` }}
+            />
             <input
               value={e.name}
               onChange={(ev) => setEntry(i, { name: ev.target.value })}
@@ -112,7 +117,7 @@ export default function SetupWizard({
               data-1p-ignore
               data-lpignore="true"
               placeholder={`${t('setup.player', { n: i + 1 })} — ${t('setup.namePlaceholder')}`}
-              className="min-w-0 flex-1 rounded-lg border border-stone-300 px-3 py-2"
+              className="min-w-0 flex-1 rounded-lg border border-white/15 bg-black/30 px-3 py-2 placeholder-disco-muted/50 focus:border-neon-cyan focus:outline-none"
             />
             <input
               value={e.age}
@@ -121,27 +126,29 @@ export default function SetupWizard({
               autoCorrect="off"
               inputMode="numeric"
               placeholder={t('setup.age')}
-              className="w-20 rounded-lg border border-stone-300 px-3 py-2"
+              className="w-20 rounded-lg border border-white/15 bg-black/30 px-3 py-2 placeholder-disco-muted/50 focus:border-neon-cyan focus:outline-none"
             />
           </div>
         ))}
-        <p className="text-xs text-stone-400">{t('setup.youngestStarts')}</p>
+        <p className="text-xs text-disco-muted">{t('setup.youngestStarts')}</p>
       </section>
 
       {/* dice mode */}
       <section>
-        <h2 className="mb-2 font-semibold text-stone-700">{t('setup.dice')}</h2>
+        <h2 className="mb-2 font-disco text-lg text-neon-cyan">{t('setup.dice')}</h2>
         <div className="grid grid-cols-2 gap-2">
           {(['virtual', 'physical'] as DiceMode[]).map((m) => (
             <button
               key={m}
               onClick={() => setDiceMode(m)}
               className={`rounded-lg border p-3 text-left transition ${
-                diceMode === m ? 'border-board-border bg-stone-100' : 'border-stone-200'
+                diceMode === m
+                  ? 'border-neon-cyan bg-neon-cyan/10 text-disco-text shadow-[0_0_14px_rgba(36,224,255,0.4)]'
+                  : 'disco-panel text-disco-muted'
               }`}
             >
-              <span className="block font-medium">{t(`setup.dice.${m}`)}</span>
-              <span className="block text-xs text-stone-500">{t(`setup.dice.${m}Hint`)}</span>
+              <span className="block font-disco">{t(`setup.dice.${m}`)}</span>
+              <span className="block text-xs opacity-70">{t(`setup.dice.${m}Hint`)}</span>
             </button>
           ))}
         </div>
@@ -149,18 +156,18 @@ export default function SetupWizard({
 
       {/* rules */}
       <section>
-        <h2 className="mb-2 font-semibold text-stone-700">{t('setup.rules')}</h2>
+        <h2 className="mb-2 font-disco text-lg text-neon-cyan">{t('setup.rules')}</h2>
         <RuleToggles rules={rules} onChange={setRules} />
       </section>
 
       <button
         onClick={start}
         disabled={!namesOk}
-        className="sticky bottom-3 rounded-xl bg-board-border py-3 text-lg font-semibold text-white shadow-lg transition disabled:opacity-40"
+        className="sticky bottom-3 rounded-xl bg-gradient-to-r from-neon-pink to-neon-purple py-3 font-disco text-xl uppercase tracking-wide text-white shadow-[0_0_24px_rgba(255,45,155,0.7)] transition disabled:opacity-40 disabled:shadow-none"
       >
         {t('setup.start')}
       </button>
-      {!namesOk && <p className="-mt-3 text-center text-sm text-red-500">{t('setup.needNames')}</p>}
+      {!namesOk && <p className="-mt-3 text-center text-sm text-neon-pink">{t('setup.needNames')}</p>}
     </div>
   );
 }

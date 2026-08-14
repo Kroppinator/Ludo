@@ -57,7 +57,7 @@ export default function Home() {
       ) : (
         <main className="flex min-h-dvh flex-col items-center gap-4 p-4">
           <div className="flex w-full max-w-md items-center justify-between">
-            <h1 className="text-lg font-bold text-board-border">{t('app.title')}</h1>
+            <h1 className="font-disco text-xl text-neon-pink neon-text">{t('app.title')}</h1>
             <LanguageSwitch />
           </div>
           <Board state={game} onPieceClick={(id) => dispatch({ type: 'MOVE', pieceId: id })} />
