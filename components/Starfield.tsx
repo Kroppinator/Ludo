@@ -21,6 +21,14 @@ const LAYERS = [
   { count: 12, size: 2.6, opacity: 0.85, duration: 100 },
 ];
 
+// 2×2 tiling keeps the whole viewport covered while the layer drifts diagonally.
+const TILE_OFFSETS = [
+  ['0%', '0%'],
+  ['100%', '0%'],
+  ['0%', '100%'],
+  ['100%', '100%'],
+] as const;
+
 export default function Starfield() {
   const layers = useMemo(() => {
     const rand = mulberry32(1980);
@@ -41,12 +49,13 @@ export default function Starfield() {
           className="absolute inset-0"
           style={{ animation: `star-drift ${layer.duration}s linear infinite` }}
         >
-          {/* Two identical copies offset one screen down-right so the drift wraps seamlessly. */}
-          {[0, 1].map((copy) => (
+          {/* 2×2 tiles: full coverage during the diagonal drift, seamless wrap at
+              translate(-100%, -100%). */}
+          {TILE_OFFSETS.map(([tx, ty], ci) => (
             <div
-              key={copy}
+              key={ci}
               className="absolute inset-0"
-              style={copy === 1 ? { transform: 'translate(100%, 100%)' } : undefined}
+              style={{ transform: `translate(${tx}, ${ty})` }}
             >
               {layer.stars.map((s, si) => (
                 <span
