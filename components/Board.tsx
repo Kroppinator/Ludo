@@ -24,14 +24,6 @@ const baseKeys = new Map<string, PlayerColor>();
   BASE_CELLS[c].forEach((cell) => baseKeys.set(cellKey(cell), c));
 });
 
-function cornerColor(r: number, c: number): PlayerColor | null {
-  if (r <= 3 && c <= 3) return 'red'; // top-left
-  if (r <= 3 && c >= 7) return 'green'; // top-right
-  if (r >= 7 && c >= 7) return 'yellow'; // bottom-right
-  if (r >= 7 && c <= 3) return 'blue'; // bottom-left
-  return null;
-}
-
 export default function Board({
   state,
   onPieceClick,
@@ -70,12 +62,9 @@ export default function Board({
         radius = '6px';
       }
 
-      const corner = !start && !goal && !isTrack && !base && !isCenter ? cornerColor(r, c) : null;
-
       cells.push(
         <div
           key={key}
-          style={{ background: corner ? `${COLOR_HEX[corner]}2e` : 'transparent' }}
           className="flex min-h-0 min-w-0 items-center justify-center"
         >
           {isCenter ? (
@@ -112,7 +101,7 @@ export default function Board({
 
   return (
     <div
-      className="relative mx-auto w-full max-w-[min(92vw,72vh)] rounded-2xl bg-board-bg p-[1.5%]"
+      className="relative mx-auto w-full max-w-[min(92vw,72vh)] rounded-2xl p-[1.5%]"
       style={{
         border: '3px solid #ff2d9b',
         boxShadow:
