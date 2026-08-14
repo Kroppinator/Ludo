@@ -60,7 +60,7 @@ export default function Dice({
   if (mode === 'physical') {
     return (
       <div className="flex flex-col items-center gap-2">
-        <span className="text-sm text-stone-500">{t('game.enterRoll')}</span>
+        <span className="text-sm text-disco-muted">{t('game.enterRoll')}</span>
         <div className="grid grid-cols-6 gap-1.5">
           {[1, 2, 3, 4, 5, 6].map((v) => (
             <button
@@ -92,7 +92,7 @@ export default function Dice({
       >
         <DiceFace value={face} size={72} faceColor={hex} pipColor="#ffffff" />
       </motion.button>
-      <span className="text-sm text-stone-500">{disabled ? ' ' : t('game.tapToRoll')}</span>
+      <span className="text-sm text-disco-muted">{disabled ? ' ' : t('game.tapToRoll')}</span>
     </div>
   );
 }

@@ -26,17 +26,17 @@ export default function RuleToggles({
   const row = (key: keyof RuleConfig) => (
     <label
       key={key}
-      className="flex cursor-pointer items-start gap-3 rounded-lg border border-stone-200 p-3 transition hover:bg-stone-50"
+      className="disco-panel flex cursor-pointer items-start gap-3 rounded-lg p-3 transition hover:border-neon-pink/60"
     >
       <input
         type="checkbox"
         checked={rules[key]}
         onChange={(e) => onChange({ ...rules, [key]: e.target.checked })}
-        className="mt-1 h-5 w-5 accent-board-border"
+        className="mt-0.5 h-6 w-6 accent-neon-pink"
       />
       <span>
-        <span className="block font-medium text-stone-800">{t(`rule.${key}`)}</span>
-        <span className="block text-sm text-stone-500">{t(`rule.${key}.desc`)}</span>
+        <span className="block font-disco text-disco-text">{t(`rule.${key}`)}</span>
+        <span className="block text-sm text-disco-muted">{t(`rule.${key}.desc`)}</span>
       </span>
     </label>
   );
@@ -48,7 +48,7 @@ export default function RuleToggles({
       <button
         type="button"
         onClick={() => setShowMore((v) => !v)}
-        className="flex items-center gap-1 self-start py-1 text-sm font-medium text-stone-500 transition hover:text-stone-700"
+        className="flex items-center gap-1 self-start py-1 font-disco text-sm text-neon-cyan transition hover:brightness-125"
       >
         <span className={`inline-block transition-transform ${showMore ? 'rotate-90' : ''}`}>▸</span>
         {t('setup.moreRules')}

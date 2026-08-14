@@ -11,7 +11,7 @@ import {
   cellForPiece,
   cellKey,
 } from '@/lib/board4';
-import { COLOR_HEX, COLOR_TINT } from '@/lib/colors';
+import { COLOR_HEX } from '@/lib/colors';
 import Piece from './Piece';
 
 // Precompute lookups from cell key → meaning.
@@ -60,7 +60,7 @@ export default function Board({
         border = '2px solid rgba(255,255,255,0.6)';
       } else if (isTrack) {
         bg = '#ffffff';
-        border = '2px solid #d6ccbc';
+        border = '1px solid rgba(255,255,255,0.35)';
       } else if (base) {
         bg = '#ffffff';
         border = `3px solid ${COLOR_HEX[base]}`;
@@ -75,7 +75,7 @@ export default function Board({
       cells.push(
         <div
           key={key}
-          style={{ background: corner ? COLOR_TINT[corner] : 'transparent' }}
+          style={{ background: corner ? `${COLOR_HEX[corner]}2e` : 'transparent' }}
           className="flex min-h-0 min-w-0 items-center justify-center"
         >
           {isCenter ? (
@@ -112,8 +112,12 @@ export default function Board({
 
   return (
     <div
-      className="relative mx-auto w-full max-w-[min(92vw,72vh)] rounded-2xl bg-board-bg p-[1.5%] shadow-xl"
-      style={{ border: '3px solid #78716c' }}
+      className="relative mx-auto w-full max-w-[min(92vw,72vh)] rounded-2xl bg-board-bg p-[1.5%]"
+      style={{
+        border: '3px solid #ff2d9b',
+        boxShadow:
+          '0 0 28px rgba(255,45,155,0.55), 0 0 64px rgba(176,38,255,0.35), inset 0 0 24px rgba(176,38,255,0.25)',
+      }}
     >
       {/* aspect-square on this inner, width-driven box makes the height derive
           from a definite width (reliable on iOS). Grid + overlay share this box

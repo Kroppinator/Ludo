@@ -1,5 +1,10 @@
 import type { Metadata, Viewport } from 'next';
+import { Righteous } from 'next/font/google';
+import Starfield from '@/components/Starfield';
 import './globals.css';
+
+// Retro display font for the disco look.
+const disco = Righteous({ weight: '400', subsets: ['latin'], variable: '--font-disco' });
 
 export const metadata: Metadata = {
   applicationName: 'Chill dein Leben, Digga!',
@@ -27,8 +32,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="de">
-      <body className="bg-board-bg min-h-dvh">
+    <html lang="de" className={disco.variable}>
+      <body className="min-h-dvh">
+        <Starfield />
         {children}
       </body>
     </html>

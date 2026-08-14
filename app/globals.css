@@ -1,18 +1,30 @@
 @import "tailwindcss";
 
 @theme {
+  /* Player colours (used for pieces, homes, goals) */
   --color-player-red:    #dc2626;
   --color-player-blue:   #2563eb;
   --color-player-green:  #16a34a;
   --color-player-yellow: #ca8a04;
-  --color-board-bg:      #f5f0e8;
-  --color-board-border:  #78716c;
+
+  /* Board */
+  --color-board-bg:      #160a2b;
+  --color-board-border:  #ff2d9b;
+
+  /* 1980s disco palette */
+  --color-neon-pink:     #ff2d9b;
+  --color-neon-cyan:     #24e0ff;
+  --color-neon-purple:   #b026ff;
+  --color-neon-gold:     #ffd23f;
+  --color-disco-bg:      #0b0518;
+  --color-disco-panel:   #241241;
+  --color-disco-text:    #f4ecff;
+  --color-disco-muted:   #bda9dd;
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
-    /* Prevent tap highlight on touch devices */
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
   }
@@ -20,5 +32,61 @@
   body {
     user-select: none;
     -webkit-user-select: none;
+    color: var(--color-disco-text);
+    background-color: var(--color-disco-bg);
+  }
+
+  /* Animated neon "disco lights" behind everything (own layer so the hue shift
+     never tints the board or pieces). */
+  /* Corner glows aligned to each board corner's player colour, with a gentle pulse. */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: -20%;
+    z-index: -20;
+    pointer-events: none;
+    background-repeat: no-repeat;
+    background-image:
+      radial-gradient(30rem 30rem at 12% 12%, rgba(220, 38, 38, 0.42), transparent 60%),  /* red — top-left */
+      radial-gradient(28rem 28rem at 88% 16%, rgba(22, 163, 74, 0.42), transparent 60%),  /* green — top-right */
+      radial-gradient(32rem 32rem at 20% 88%, rgba(37, 99, 235, 0.42), transparent 60%),  /* blue — bottom-left */
+      radial-gradient(26rem 26rem at 84% 84%, rgba(202, 138, 4, 0.42), transparent 60%);  /* yellow — bottom-right */
+    animation: corner-pulse 5s ease-in-out infinite alternate;
+  }
+
+  input,
+  select,
+  textarea {
+    color: var(--color-disco-text);
+  }
+}
+
+@keyframes corner-pulse {
+  0%   { opacity: 0.58; transform: scale(1); }
+  100% { opacity: 1;    transform: scale(1.13); }
+}
+
+/* One diagonal tile of drift; the starfield duplicates each layer so it loops. */
+@keyframes star-drift {
+  from { transform: translate(0, 0); }
+  to   { transform: translate(-100%, -100%); }
+}
+
+@layer components {
+  .font-disco {
+    font-family: var(--font-disco), system-ui, sans-serif;
+  }
+
+  /* Neon glow for text — glows in the element's own colour. */
+  .neon-text {
+    text-shadow: 0 0 6px currentColor, 0 0 16px currentColor;
+  }
+
+  /* Frosted dark panel with a faint neon rim. */
+  .disco-panel {
+    background: rgba(36, 18, 65, 0.72);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
 }
